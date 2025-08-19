@@ -7,11 +7,22 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  settings: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 30,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 5,
+    color: '#333',
   },
   input: {
     borderWidth: 1,

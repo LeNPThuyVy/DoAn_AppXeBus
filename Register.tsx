@@ -1,13 +1,19 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { customers } from './dataCustomers';
-import { RootStackParamList } from './index';
-import styles from './styles';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useState } from "react";
+import {
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { RootStackParamList } from "./index";
+import styles from "./styles";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'Register'
+  "Register"
 >;
 
 interface Props {
@@ -15,28 +21,42 @@ interface Props {
 }
 
 export default function Register({ navigation }: Props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!username || !password || !email || !phone) {
-      Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin');
+      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin");
       return;
     }
 
-    customers.push({
-      Id_customer: customers.length + 1,
-      username,
-      password,
-      email,
-      phone,
-      otp: '123456',
-    });
+    try {
+      // Lấy dữ liệu hiện tại từ AsyncStorage
+      const storedData = await AsyncStorage.getItem("customers");
+      const customers = storedData ? JSON.parse(storedData) : [];
 
-    Alert.alert('Thành công', 'Đăng ký thành công');
-    navigation.navigate('Login');
+      // Thêm user mới
+      const newCustomer = {
+        id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
+        username,
+        password,
+        email,
+        phone,
+      };
+
+      customers.push(newCustomer);
+
+      // Ghi lại vào AsyncStorage
+      await AsyncStorage.setItem("customers", JSON.stringify(customers));
+
+      Alert.alert("Thành công", "Đăng ký thành công");
+      navigation.navigate("Login");
+    } catch (error) {
+      Alert.alert("Lỗi", "Không thể lưu dữ liệu");
+      console.error(error);
+    }
   };
 
   return (
@@ -60,7 +80,7 @@ export default function Register({ navigation }: Props) {
         <Text style={styles.buttonText}>Đăng ký</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={styles.link}>Đã có tài khoản? Đăng nhập</Text>
       </TouchableOpacity>
     </View>
