@@ -1,12 +1,13 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { RootStackParamList } from "./index";
-import styles from "./styles";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { customers } from './dataCustomers';
+import { RootStackParamList } from './index';
+import styles from './styles';
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "Register"
+  'Register'
 >;
 
 interface Props {
@@ -14,28 +15,28 @@ interface Props {
 }
 
 export default function Register({ navigation }: Props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleRegister = () => {
     if (!username || !password || !email || !phone) {
-      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin");
+      Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin');
       return;
     }
 
-    // Tạo user tạm chưa lưu vào customers
-    const newUser = {
+    customers.push({
+      Id_customer: customers.length + 1,
       username,
       password,
       email,
       phone,
-      otp: "123456", // OTP giả định
-    };
+      otp: '123456',
+    });
 
-    // Chuyển sang màn OTP để xác thực
-    navigation.navigate("OTP", { user: newUser });
+    Alert.alert('Thành công', 'Đăng ký thành công');
+    navigation.navigate('Login');
   };
 
   return (
@@ -59,7 +60,7 @@ export default function Register({ navigation }: Props) {
         <Text style={styles.buttonText}>Đăng ký</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.link}>Đã có tài khoản? Đăng nhập</Text>
       </TouchableOpacity>
     </View>

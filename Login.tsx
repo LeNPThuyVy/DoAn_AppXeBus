@@ -14,7 +14,8 @@ export default function Login({ navigation }: Props) {
   const handleLogin = () => {
     const user = customers.find((c) => c.phone === phone && c.password === password);
     if (user) {
-      navigation.navigate("Account_Balance");
+      // truyền Id_customer qua HomeScreen
+      navigation.navigate("HomeScreen", { Id_customer: user.Id_customer });
     } else {
       alert("Số điện thoại hoặc mật khẩu không đúng!");
     }

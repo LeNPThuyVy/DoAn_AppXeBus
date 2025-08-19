@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation, route }: Props) {
           </TouchableOpacity>
           </View>
         </View>
-
+  
         {/* Hình xe bus + tiền */}
         <View style={styles.busContainer}>
           <Image
