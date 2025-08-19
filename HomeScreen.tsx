@@ -20,11 +20,16 @@ export default function HomeScreen({ navigation, route }: Props) {
         <View style={styles.header}>
           <Text style={styles.greeting}>Xin chào {user ? user.username : "Người dùng"}</Text>
           <View style={styles.headerIcons}>
+          <TouchableOpacity onPress={() => alert("Thông báo clicked!")}>
             <Ionicons name="notifications" size={28} color="gold" style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+            
+          <TouchableOpacity onPress={() => navigation.push('Settings')}>
             <Ionicons name="settings" size={28} color="gray" />
+          </TouchableOpacity>
           </View>
         </View>
-  
+
         {/* Hình xe bus + tiền */}
         <View style={styles.busContainer}>
           <Image
