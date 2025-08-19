@@ -14,8 +14,6 @@ export default function HomeScreen({ navigation, route }: Props) {
     return (
         <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
-
-
         {/* Thanh chào và icon */}
         <View style={styles.header}>
           <Text style={styles.greeting}>Xin chào {user ? user.username : "Người dùng"}</Text>
@@ -29,7 +27,7 @@ export default function HomeScreen({ navigation, route }: Props) {
           </TouchableOpacity>
           </View>
         </View>
-  
+
         {/* Hình xe bus + tiền */}
         <View style={styles.busContainer}>
           <Image
@@ -48,46 +46,64 @@ export default function HomeScreen({ navigation, route }: Props) {
                 <Text style={styles.mainButtonText}>Nạp tiền</Text>
             </TouchableOpacity>
         </View>
-
-  
         {/* 4 nút nhỏ theo dạng grid */}
-        <View style ={styles.buttonGrid}> 
+        <View style={styles.buttonGrid}>
+  {/* Button 1 */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} onPress={() => navigation.push('History')}>
+      <Ionicons name="time-outline" size={28} color="gray"/>
+    </TouchableOpacity>
+    <Text style={styles.smallButtonText}>Lịch sử thanh toán</Text>
+  </View>
 
-          <TouchableOpacity style={styles.smallButton}
-          onPress={()=>navigation.push('History')}
-          >
-            <Text style={styles.smallButtonText}>Lịch sử{"\n"}thanh toán</Text>
-          </TouchableOpacity>
-        
-          <TouchableOpacity style={styles.smallButton}
-          onPress={()=>navigation.push('Account_Balance')}
-          >
-            <Text style={styles.smallButtonText}>Ví</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.smallButtonText}>Thêm{"\n"}khuôn mặt</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}
-          onPress={()=>navigation.push('Settings')}
-          >
-            <Ionicons name="settings" size={24} color="gray" />
-            <Text style={styles.smallButtonText}>Cài đặt</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.smallButtonText}>{"\n"}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.smallButtonText}>{"\n"}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.smallButtonText}>{"\n"}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.smallButtonText}>{"\n"}</Text>
-          </TouchableOpacity>
-        </View>
-        
-        
+  {/* Button 2 */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} onPress={() => navigation.push('Account_Balance')}>
+      <Ionicons name="wallet-outline" size={28} color="gray"/>
+    </TouchableOpacity>
+    <Text style={styles.smallButtonText}>Ví</Text>
+  </View>
+
+  {/* Button 3 */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton}>
+      <Ionicons name="person-add-outline" size={28} color="gray"/>
+    </TouchableOpacity>
+    <Text style={styles.smallButtonText}>Thêm khuôn mặt</Text>
+  </View>
+
+  {/* Button 4 */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} onPress={() => navigation.push('Settings')}>
+      <Ionicons name="settings-outline" size={28} color="gray"/>
+    </TouchableOpacity>
+    <Text style={styles.smallButtonText}>Cài đặt</Text>
+  </View>
+  {/* Button 5 - trống */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} />
+    <Text style={styles.smallButtonText}></Text>
+  </View>
+
+  {/* Button 6 - trống */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} />
+    <Text style={styles.smallButtonText}></Text>
+  </View>
+
+  {/* Button 7 - trống */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} />
+    <Text style={styles.smallButtonText}></Text>
+  </View>
+
+  {/* Button 8 - trống */}
+  <View style={styles.smallButtonWrapper}>
+    <TouchableOpacity style={styles.smallButton} />
+    <Text style={styles.smallButtonText}></Text>
+  </View>
+</View>
+
       </ScrollView>
         {/* Thanh menu dưới với  */}
         

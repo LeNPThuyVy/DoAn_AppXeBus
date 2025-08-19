@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f5f6f8",
+        backgroundColor: "#ffffff",
         padding: 15,
       },
       header: {
@@ -58,32 +58,38 @@ export default StyleSheet.create({
           fontSize: 14,
         },
         
-      buttonGrid: {
-          width: '100%',
-          backgroundColor: '#dde1e4',
-          padding: 15,
-          borderRadius: 12,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        },
-        
-        smallButton: {
-          width: '22%',       // 4 button/row
-          aspectRatio: 1,     // đảm bảo vuông
-          backgroundColor: '#a0d2eb',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          marginBottom: 10,   // khoảng cách dòng
-        },
-        
-        smallButtonText: {
-          color: '#000',
-          textAlign: 'center',
-          fontSize: 10,       // nhỏ hơn, gọn gàng
-          lineHeight: 12,     // giảm khoảng cách dòng
-        },
+        buttonGrid: {
+            width: '100%',
+            backgroundColor: '#dde1e4',
+            padding: 15,             // giảm padding, vừa đủ
+            borderRadius: 12,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          },
+          
+          smallButtonWrapper: {
+            width: '22%',            // 4 nút / hàng, vừa đủ
+            alignItems: 'center',
+            marginBottom: 20,        // khoảng cách dòng → kéo dài buttonGrid
+          },
+          
+          smallButton: {
+            width: '100%',           // full width của wrapper
+            aspectRatio: 1,          // vuông
+            backgroundColor: '#38b6ff',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 12,
+          },
+          
+          smallButtonText: {
+            marginTop: 5,            // cách nút 1 chút
+            textAlign: 'center',
+            fontSize: 12,
+            color: '#000',
+            lineHeight: 14,
+          },          
         
         
       bottomMenu: {
