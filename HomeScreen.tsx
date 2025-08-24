@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Define } from "./types";
 import styles from "./Style_HomeScreen"
-type Props=NativeStackScreenProps<Define,'HomeScreen'>;
 import { RootStackParamList } from "./index";
-import { customers } from "./dataCustomers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+type Props = NativeStackScreenProps<Define, 'HomeScreen'>;
 
 export default function HomeScreen({ navigation, route }: Props) {
     const { Id_customer } = route.params || {};  
-    const user = customers.find((c) => c.Id_customer === Id_customer);
+
+    const [user, setUser] = useState<{ Id_customer: string; username: string; password: string } | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const storedData = await AsyncStorage.getItem("customers");
+                if (storedData) {
+                    const customers = JSON.parse(storedData);
+                    const foundUser = customers.find((c: any) => c.Id_customer === Id_customer);
+                    setUser(foundUser || null);
+                }
+            } catch (error) {
+                console.error("Lỗi khi load user:", error);
+            }
+        };
+        fetchUser();
+    }, [Id_customer]);
+
     return (
         <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
@@ -46,6 +65,7 @@ export default function HomeScreen({ navigation, route }: Props) {
                 <Text style={styles.mainButtonText}>Nạp tiền</Text>
             </TouchableOpacity>
         </View>
+
         {/* 4 nút nhỏ theo dạng grid */}
         <View style={styles.buttonGrid}>
   {/* Button 1 */}
@@ -79,6 +99,7 @@ export default function HomeScreen({ navigation, route }: Props) {
     </TouchableOpacity>
     <Text style={styles.smallButtonText}>Cài đặt</Text>
   </View>
+
   {/* Button 5 - trống */}
   <View style={styles.smallButtonWrapper}>
     <TouchableOpacity style={styles.smallButton} />
@@ -105,8 +126,8 @@ export default function HomeScreen({ navigation, route }: Props) {
 </View>
 
       </ScrollView>
-        {/* Thanh menu dưới với  */}
         
+        {/* Thanh menu dưới */}
         <View style={styles.bottomMenu}> 
             <TouchableOpacity style={styles.bottomMenuItem}> 
             <Text>Tài khoản</Text> 
