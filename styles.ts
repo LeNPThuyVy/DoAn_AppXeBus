@@ -5,6 +5,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   settings: {
@@ -12,17 +13,17 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 20,
   },
   label: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 10,
     marginBottom: 5,
-    color: '#333',
+    color: "#333",
   },
   input: {
     borderWidth: 1,
@@ -46,4 +47,33 @@ export default StyleSheet.create({
     color: "#007bff",
     textAlign: "center",
   },
+
+  // 🎯 Style cho ScanFace
+  frame: {
+    width: 250,
+    height: 250,
+    borderWidth: 2,
+    borderColor: "#333",
+    borderRadius: 16,
+    marginBottom: 15,
+  },
+  instruction: {
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  buttonFS: {
+    backgroundColor: "#007bff",
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  buttonTextFS: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
 });

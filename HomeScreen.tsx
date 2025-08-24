@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Define } from "./types";
-import styles from "./Style_HomeScreen"
-import { RootStackParamList } from "./index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import styles from "./Style_HomeScreen";
+import { Define } from "./types";
+
 
 type Props = NativeStackScreenProps<Define, 'HomeScreen'>;
 
@@ -86,7 +86,7 @@ export default function HomeScreen({ navigation, route }: Props) {
 
   {/* Button 3 */}
   <View style={styles.smallButtonWrapper}>
-    <TouchableOpacity style={styles.smallButton}>
+    <TouchableOpacity style={styles.smallButton} onPress={() => navigation.push('FaceScan')}>
       <Ionicons name="person-add-outline" size={28} color="gray"/>
     </TouchableOpacity>
     <Text style={styles.smallButtonText}>Thêm khuôn mặt</Text>
