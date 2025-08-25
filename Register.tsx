@@ -1,40 +1,67 @@
 import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Define } from "./types";
+import * as FileSystem from "expo-file-system";
 
 type Props = NativeStackScreenProps<Define, "Register">;
 
 export default function Register({ navigation }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name,setName]=useState("");
+  const [email,setEmail]=useState("");
+  const [phoneNumber,setPhoneNumber]=useState("");
+
+  const fileUrl=FileSystem.documentDirectory + "dataCustomer.json";
+
+  // //Reset dữ liệu - Hạn chế đụng vào vì khi dùng thì dữ liệu lưu được sẽ hoàn toàn mất :)))
+  // async function resetData() {
+  //   await FileSystem.writeAsStringAsync(fileUrl, JSON.stringify([], null, 2));
+  //   console.log("Đã reset dữ liệu về rỗng");
+  // }
 
   const handleRegister = async () => {
-    try {
-      const storedData = await AsyncStorage.getItem("customers");
-      const customers = storedData ? JSON.parse(storedData) : [];
+      try
+      {
+        //Xóa file documentDirectory
+        //Đọc dữ liệu hiện có trong file
+        let customers: any[]=[];//Nơi chứa danh sách khách hàng từ file dataCustomer.json
+        const fileInfo=await FileSystem.getInfoAsync(fileUrl);
 
-      // tạo id mới = max id + 1
-      const newId =
-        customers.length > 0
-          ? Math.max(...customers.map((c: any) => c.Id_customer)) + 1
-          : 1;
+        //Kiểm tra tồn tại của file
+        if(fileInfo.exists)//Nếu file tồn tại
+        {
+          const info=await FileSystem.readAsStringAsync(fileUrl);
+          customers = info?JSON.parse(info):[];
+        }
 
-      const newUser = { Id_customer: newId, username, password };
+        //Tạo id mới (id mới = max id+1)
+        let Id= (customers.length>0?Math.max(...customers.map((c)=>c.Id_customer))+1:1);
+        let newId=Id.toString().padStart(10,"0");
+        const newUser={
+          Id_customer:newId,
+          Username:username,
+          Password:password,
+          Name:name,
+          Email:email,
+          PhoneNumber:phoneNumber
+        };
+        customers.push(newUser);
 
-      customers.push(newUser);
+        //Ghi lại vào file
+        await FileSystem.writeAsStringAsync(fileUrl,JSON.stringify(customers,null,2));
 
-      await AsyncStorage.setItem("customers", JSON.stringify(customers));
-
-      Alert.alert("Thành công", "Đăng ký thành công!");
-
-      // 👉 sau khi đăng ký thì điều hướng sang HomeScreen
-      navigation.replace("HomeScreen", { Id_customer: newId });
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Lỗi", "Không thể đăng ký!");
-    }
+        Alert.alert("Thành công","Đăng kí thành công");
+        console.log("documentDirectory:", FileSystem.documentDirectory)
+        const content = await FileSystem.readAsStringAsync(fileUrl);
+        console.log("Nội dung file:", content);
+        navigation.replace("HomeScreen",{Id_customer:newId});
+      } catch(error)
+      {
+        console.error(error);
+        Alert.alert("Lỗi","Đăng kí không thành công!");
+      } 
   };
 
   return (
@@ -52,6 +79,24 @@ export default function Register({ navigation }: Props) {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Tên của bạn"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email của bạn"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Số điện thoại của bạn"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
       />
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Đăng ký</Text>
