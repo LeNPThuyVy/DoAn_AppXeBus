@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import * as FileSystem from "expo-file-system";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Define } from "./types";
 
 type Props = NativeStackScreenProps<Define, "Login">;
@@ -12,21 +12,27 @@ export default function Login({ navigation }: Props) {
 
   const handleLogin = async () => {
     try {
-      const data = await AsyncStorage.getItem("customers");
-      const customers = data ? JSON.parse(data) : [];
+      const fileUrl = FileSystem.documentDirectory + "dataCustomer.json";
+      const fileInfo = await FileSystem.getInfoAsync(fileUrl);
+
+      let customers: any[] = [];
+      if (fileInfo.exists) {
+        const fileContent = await FileSystem.readAsStringAsync(fileUrl);
+        customers = JSON.parse(fileContent);
+      }
 
       const user = customers.find(
-        (c: any) => c.username === username && c.password === password
+        (c: any) => c.Username === username && c.Password === password
       );
 
       if (user) {
         Alert.alert("Đăng nhập thành công!");
-        navigation.navigate("HomeScreen", { Id_customer: user.Id_customer }); // ✅ truyền tham số
+        navigation.navigate("HomeScreen", { Id_customer: user.Id_customer }); 
       } else {
         Alert.alert("Sai tài khoản hoặc mật khẩu!");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Lỗi khi đăng nhập:", error);
     }
   };
 
